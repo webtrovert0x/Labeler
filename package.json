@@ -1,0 +1,19 @@
+{
+  "name": "address-labeler",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.3.0"
+  },
+  "dependencies": {
+    "canvas-confetti": "^1.9.4",
+    "dotenv": "^18.0.6",
+    "ethers": "^6.17.0"
+  }
+}
