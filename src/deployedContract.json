@@ -1,13 +1,11 @@
 {
   "network": "botchain",
-  "chainId": 968,
-  "name": "BOT Chain",
+  "chainId": 677,
+  "name": "BOT Chain Mainnet",
   "currency": "BOT",
-  "contractAddress": "0xA17E767F0E6b4A2B0A58046CaFede7ed92be82AF",
+  "contractAddress": "0x2204C3063243CA7DAe02930D20568DeF988036e5",
   "deployerAddress": "0x55DA37AbbF8C9141adA4Dd1C2eF7211c0483eC16",
-  "rpcUrl": "https://rpc.bohr.life",
-  "explorerUrl": "https://scan.bohr.life",
-  "verified": true,
-  "verificationGuid": "a17e767f0e6b4a2b0a58046cafede7ed92be82af6ac8f04e",
-  "deployedAt": "2026-10-09T13:46:35.000Z"
+  "rpcUrl": "https://rpc.botchain.ai",
+  "explorerUrl": "https://scan.botchain.ai",
+  "deployedAt": "2026-10-23T12:33:02.638Z"
 }

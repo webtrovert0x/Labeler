@@ -17,60 +17,96 @@ async function main() {
     throw new Error("PRIVATE_KEY not found in environment or .env.local");
   }
 
-  const rpcUrl = "https://rpc.bohr.life";
-  const chainId = 968;
-  const explorerUrl = "https://scan.bohr.life";
+  // Target Mainnet Parameters
+  const rpcUrl = "https://rpc.botchain.ai";
+  const chainId = 677;
+  const explorerUrl = "https://scan.botchain.ai";
+  const networkName = "BOT Chain Mainnet";
+  const currency = "BOT";
 
-  console.log("Connecting to BOT Chain:", rpcUrl);
+  console.log("========================================================");
+  console.log(` CONNECTING TO ${networkName} (Chain ID: ${chainId})`);
+  console.log(` RPC: ${rpcUrl}`);
+  console.log("========================================================\n");
+
   const provider = new ethers.JsonRpcProvider(rpcUrl);
+  const net = await provider.getNetwork();
+  console.log(`Verified On-Chain Network: Chain ID ${net.chainId.toString()}`);
 
   const cleanPk = privateKey.startsWith("0x") ? privateKey : `0x${privateKey}`;
   const deployer = new ethers.Wallet(cleanPk, provider);
 
   console.log("Deployer Address:", deployer.address);
   const balance = await provider.getBalance(deployer.address);
-  console.log("Deployer Balance:", ethers.formatEther(balance), "BOT");
+  console.log("Deployer Balance:", ethers.formatEther(balance), currency);
 
   if (balance === 0n) {
     throw new Error("Deployer balance is 0 BOT! Need gas to deploy.");
   }
 
-  // Load ABI & BIN
-  const abiPath = path.resolve(process.cwd(), "contracts/build/contracts_BOTAddressRegistry_sol_BOTAddressRegistry.abi");
-  const binPath = path.resolve(process.cwd(), "contracts/build/contracts_BOTAddressRegistry_sol_BOTAddressRegistry.bin");
+  // Load ABI & BIN from optimized Forge compilation
+  const forgePath = path.resolve(process.cwd(), "out/BOTAddressRegistry.sol/BOTAddressRegistry.json");
+  if (!fs.existsSync(forgePath)) {
+    throw new Error(`Compiled artifact not found at ${forgePath}`);
+  }
 
-  const abi = JSON.parse(fs.readFileSync(abiPath, "utf8"));
-  let bin = fs.readFileSync(binPath, "utf8").trim();
+  const forgeData = JSON.parse(fs.readFileSync(forgePath, "utf8"));
+  const abi = forgeData.abi;
+  let bin = forgeData.bytecode.object;
   if (!bin.startsWith("0x")) bin = "0x" + bin;
 
-  console.log("\nDeploying BOTAddressRegistry.sol to BOT Chain...");
+  console.log(`Bytecode Size: ${bin.length / 2} bytes (Optimized via Solc 0.8.20 + via-IR + runs=1)`);
+
   const factory = new ethers.ContractFactory(abi, bin, deployer);
 
   const feeData = await provider.getFeeData();
-  console.log("Gas Price:", feeData.gasPrice ? ethers.formatUnits(feeData.gasPrice, "gwei") : "N/A", "gwei");
+  const gasPrice = feeData.gasPrice || ethers.parseUnits("20", "gwei");
+  console.log("Network Gas Price:", ethers.formatUnits(gasPrice, "gwei"), "gwei");
+
+  console.log("\nEstimating gas for deployment...");
+  const deployTx = await factory.getDeployTransaction();
+  const estimatedGas = await provider.estimateGas(deployTx);
+  console.log("Estimated Gas:", estimatedGas.toString());
+
+  const estCost = estimatedGas * gasPrice;
+  console.log("Estimated Deployment Cost:", ethers.formatEther(estCost), currency);
+
+  if (balance < estCost) {
+    throw new Error(`Insufficient funds: Balance is ${ethers.formatEther(balance)} BOT but estimated cost is ${ethers.formatEther(estCost)} BOT`);
+  }
+
+  // Set conservative but safe gas limit (10% buffer to prevent failure while avoiding high gas reservation)
+  const gasLimit = (estimatedGas * 110n) / 100n;
+  console.log(`Submitting deployment transaction with gasLimit: ${gasLimit.toString()} and gasPrice: ${ethers.formatUnits(gasPrice, "gwei")} gwei...`);
 
   const contract = await factory.deploy({
-    gasLimit: 5000000
+    gasLimit,
+    gasPrice
   });
 
-  console.log("Deploy transaction sent:", contract.deploymentTransaction()?.hash);
-  console.log("Waiting for confirmation on BOT Chain...");
+  const txHash = contract.deploymentTransaction()?.hash;
+  console.log("Deployment transaction broadcast:", txHash);
+  console.log(`Tracking on Explorer: ${explorerUrl}/tx/${txHash}`);
+  console.log("Awaiting block confirmation on BOT Chain Mainnet...");
 
   await contract.waitForDeployment();
   const contractAddress = await contract.getAddress();
 
   console.log("\n========================================================");
-  console.log(" CONTRACT DEPLOYED SUCCESSFULLY ON BOT CHAIN!");
+  console.log(" 🎉 CONTRACT SUCCESSFULLY DEPLOYED ON BOT CHAIN MAINNET!");
   console.log(" Contract Address:", contractAddress);
-  console.log(" Explorer Link:", `${explorerUrl}/address/${contractAddress}`);
+  console.log(" Explorer Link:   ", `${explorerUrl}/address/${contractAddress}`);
   console.log("========================================================\n");
+
+  const postBal = await provider.getBalance(deployer.address);
+  console.log("Remaining Deployer Balance:", ethers.formatEther(postBal), currency);
 
   // Save deployed address
   const deployedInfo = {
     network: "botchain",
-    chainId: 968,
-    name: "BOT Chain",
-    currency: "BOT",
+    chainId: chainId,
+    name: networkName,
+    currency: currency,
     contractAddress: contractAddress,
     deployerAddress: deployer.address,
     rpcUrl: rpcUrl,
@@ -82,38 +118,51 @@ async function main() {
     path.resolve(process.cwd(), "src/deployedContract.json"),
     JSON.stringify(deployedInfo, null, 2)
   );
-
   console.log("Saved deployed contract config to src/deployedContract.json");
 
-  // Seed on-chain initial project profile
-  try {
-    console.log("Registering official BOT Network project profile on-chain...");
-    const tx1 = await contract.registerProject(
-      "bot-network",
-      "BOT Network",
-      "BOT",
-      "Decentralized trustless identity, address book labels and on-chain verification infrastructure on BOT Chain.",
-      "https://bohr.life"
-    );
-    console.log("Register project tx:", tx1.hash);
-    await tx1.wait();
-    console.log("Project registered!");
+  // Save address for verification
+  fs.writeFileSync(
+    path.resolve(process.cwd(), "last_forge_address.txt"),
+    contractAddress
+  );
 
-    const projectId = ethers.keccak256(ethers.toUtf8Bytes("bot-network"));
-    console.log("Adding official treasury wallet on-chain...");
-    const tx2 = await contract.setProjectWalletLabel(
-      projectId,
-      deployer.address,
-      "BOT Official Treasury & Deployer Safe",
-      "Treasury",
-      true
-    );
-    console.log("Set treasury wallet tx:", tx2.hash);
-    await tx2.wait();
-    console.log("Treasury wallet set and verified on-chain!");
-  } catch (err) {
-    console.warn("Seeding initial on-chain data note:", err.message);
+  // Seed on-chain initial project profile if balance is healthy
+  if (postBal > ethers.parseEther("0.01")) {
+    try {
+      console.log("\nRegistering official BOT Network project profile on-chain...");
+      const tx1 = await contract.registerProject(
+        "bot-network",
+        "BOT Network",
+        "BOT",
+        "Decentralized trustless identity, address book labels and on-chain verification infrastructure on BOT Chain.",
+        "https://botchain.ai",
+        { gasPrice }
+      );
+      console.log("Register project tx:", tx1.hash);
+      await tx1.wait(1);
+      console.log("✓ Official BOT Network profile registered on-chain!");
+
+      const projectId = ethers.keccak256(ethers.toUtf8Bytes("bot-network"));
+      console.log("Adding official treasury wallet on-chain...");
+      const tx2 = await contract.setProjectWalletLabel(
+        projectId,
+        deployer.address,
+        "BOT Official Treasury & Deployer Safe",
+        "Treasury",
+        true,
+        { gasPrice }
+      );
+      console.log("Set treasury wallet tx:", tx2.hash);
+      await tx2.wait(1);
+      console.log("✓ Official treasury wallet registered and verified on-chain!");
+    } catch (err) {
+      console.warn("Note on post-deployment seeding:", err.message);
+    }
   }
+
+  const finalBal = await provider.getBalance(deployer.address);
+  console.log("\nFinal Deployer Balance:", ethers.formatEther(finalBal), currency);
+  console.log("Deployment and setup complete!");
 }
 
 main().catch((err) => {

@@ -38,7 +38,7 @@ class RegistryStateManager {
     this.events = this._loadEvents();
     this.blockNumber = 19842100;
     this.isSyncing = false;
-    this.networkName = "BOT Chain (ID: 968)";
+    this.networkName = "BOT Chain Mainnet (ID: 677)";
 
     this._initWeb3Listener();
     this.syncFromChain();
@@ -778,7 +778,7 @@ class RegistryStateManager {
         eventName: "ContractDeployed",
         args: {
           contractAddress: CONTRACT_ADDRESS,
-          network: "BOT Chain (968)",
+          network: "BOT Chain Mainnet (677)",
           deployer: "0x55DA37AbbF8C9141adA4Dd1C2eF7211c0483eC16"
         },
         timestamp: Math.floor(Date.now() / 1000)

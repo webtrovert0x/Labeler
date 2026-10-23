@@ -1,13 +1,14 @@
 // BOT Address Registry Contract Data & Seed Dataset
 
-export const CONTRACT_ADDRESS = "0xA17E767F0E6b4A2B0A58046CaFede7ed92be82AF";
+export const CONTRACT_ADDRESS = "0x2204C3063243CA7DAe02930D20568DeF988036e5";
 
 export const BOT_CHAIN_CONFIG = {
-  chainId: 968,
-  chainIdHex: "0x3c8",
-  name: "BOT Chain",
-  rpcUrl: "https://rpc.bohr.life",
-  explorerUrl: "https://scan.bohr.life",
+  chainId: 677,
+  chainIdHex: "0x2a5",
+  name: "BOT Chain Mainnet",
+  rpcUrl: "https://rpc.botchain.ai",
+  explorerUrl: "https://scan.botchain.ai",
+  totalSupply: "150 Million",
   currency: {
     name: "BOT",
     symbol: "BOT",
@@ -63,9 +64,9 @@ export const BOT_ADDRESS_REGISTRY_ABI = [
 export const DEMO_PERSONAS = [
   {
     address: "0x55DA37AbbF8C9141adA4Dd1C2eF7211c0483eC16",
-    label: "Funded Deployer & Admin (5.7 BOT)",
+    label: "Funded Deployer & Admin",
     role: "Contract Owner / Admin",
-    badge: "Funded Wallet (Chain 968)"
+    badge: "Master Deployer (Chain 677)"
   },
   {
     address: "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",

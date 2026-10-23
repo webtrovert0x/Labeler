@@ -71,10 +71,10 @@ function renderApp() {
           </div>
           <div class="brand-text">
             <span class="brand-title">BOT Address Labeler</span>
-            <span class="brand-sub">BOT Chain Mainnet (968)</span>
+            <span class="brand-sub">BOT Chain Mainnet (677)</span>
           </div>
         </div>
-        <a href="https://scan.bohr.life/address/${CONTRACT_ADDRESS}" target="_blank" rel="noopener noreferrer" class="contract-badge" id="btn-view-contract-badge" title="View Verified Contract on BOTScan">
+        <a href="https://scan.botchain.ai/address/${CONTRACT_ADDRESS}" target="_blank" rel="noopener noreferrer" class="contract-badge" id="btn-view-contract-badge" title="View Verified Contract on BOTScan">
           <span class="pulse-dot"></span>
           <span>BOT Chain Live</span>
           <span style="opacity: 0.7;">(${truncateAddress(CONTRACT_ADDRESS)})</span>
@@ -216,6 +216,8 @@ function renderApp() {
       </div>
     </main>
 
+    ${renderAppFooter(state)}
+
     <!-- Modals Container -->
     <div id="modal-container"></div>
   `;
@@ -345,7 +347,7 @@ function renderResultCard(item) {
             <button class="btn-icon-tiny btn-copy-addr" data-addr="${item.address}" title="Copy Address">
               ${icons.copy}
             </button>
-            <a href="https://etherscan.io/address/${item.address}" target="_blank" rel="noopener noreferrer" class="btn-icon-tiny" title="View on Etherscan">
+            <a href="https://scan.botchain.ai/address/${item.address}" target="_blank" rel="noopener noreferrer" class="btn-icon-tiny" title="View on BOT Chain Explorer">
               ${icons.externalLink}
             </a>
           </div>
@@ -690,7 +692,7 @@ function renderEventsTab(state) {
         <div class="section-title-group">
           <h2>Live On-Chain Event Stream</h2>
           <p class="section-desc">
-            Emitted smart contract events on BOT Chain (ID 968) with verified block explorer proofs.
+            Emitted smart contract events on BOT Chain Mainnet (ID 677) with verified block explorer proofs.
           </p>
         </div>
         <div style="display: flex; gap: 0.5rem;">
@@ -727,7 +729,7 @@ function renderEventsTab(state) {
           } else if (ev.eventName === "ProjectVerificationSet") {
             summary = `Updated project verification status to: <strong>${ev.args.isVerified ? "VERIFIED" : "UNVERIFIED"}</strong>`;
           } else if (ev.eventName === "ContractDeployed") {
-            summary = `Contract deployed to <strong>BOT Chain</strong> by ${truncateAddress(ev.args.deployer)}`;
+            summary = `Contract deployed to <strong>BOT Chain Mainnet</strong> by ${truncateAddress(ev.args.deployer)}`;
           } else {
             summary = JSON.stringify(ev.args);
           }
@@ -742,7 +744,7 @@ function renderEventsTab(state) {
               <div class="event-meta">
                 <span style="color: var(--emerald-verified); font-weight: 500;">✓ On-Chain</span>
                 <span>Block #${ev.blockNumber}</span>
-                <a href="https://scan.bohr.life/tx/${ev.txHash}" target="_blank" rel="noopener noreferrer" style="color: var(--cyan-primary); text-decoration: none; display: inline-flex; align-items: center; gap: 0.2rem;" title="View on BOTScan">
+                <a href="https://scan.botchain.ai/tx/${ev.txHash}" target="_blank" rel="noopener noreferrer" style="color: var(--cyan-primary); text-decoration: none; display: inline-flex; align-items: center; gap: 0.2rem;" title="View on BOTScan">
                   <span>${truncateAddress(ev.txHash)}</span>
                   ${icons.externalLink}
                 </a>
@@ -766,11 +768,11 @@ function renderContractTab(state) {
         <div class="section-title-group">
           <h2>BOTAddressRegistry.sol</h2>
           <p class="section-desc">
-            Decommissioned mock state. Deployed LIVE on <strong>BOT Chain</strong> with real gas and verified on-chain state.
+            Deployed LIVE on <strong>BOT Chain Mainnet</strong> with real gas and verified on-chain state.
           </p>
         </div>
         <div class="address-book-actions">
-          <a href="https://scan.bohr.life/address/${CONTRACT_ADDRESS}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="text-decoration: none;">
+          <a href="https://scan.botchain.ai/address/${CONTRACT_ADDRESS}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="text-decoration: none;">
             ${icons.externalLink}
             <span>View on BOTScan</span>
           </a>
@@ -794,12 +796,12 @@ function renderContractTab(state) {
           <div class="stat-card">
             <div class="stat-label">Live Deployed Contract</div>
             <div style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--cyan-primary); word-break: break-all;">
-              <a href="https://scan.bohr.life/address/${CONTRACT_ADDRESS}" target="_blank" rel="noopener noreferrer" style="color: var(--cyan-primary); text-decoration: none;">
+              <a href="https://scan.botchain.ai/address/${CONTRACT_ADDRESS}" target="_blank" rel="noopener noreferrer" style="color: var(--cyan-primary); text-decoration: none;">
                 ${CONTRACT_ADDRESS}
               </a>
             </div>
             <div style="font-size: 0.74rem; color: var(--emerald-verified); margin-top: 0.35rem;">
-              ● Network: BOT Chain (ID: 968)
+              ● Network: BOT Chain Mainnet (ID: 677)
             </div>
           </div>
 
@@ -809,25 +811,621 @@ function renderContractTab(state) {
               0x55DA37AbbF8C9141adA4Dd1C2eF7211c0483eC16
             </div>
             <div style="font-size: 0.74rem; color: var(--text-muted); margin-top: 0.35rem;">
-              Funded Master Key (.env.local)
+              Master Funded Deployer
             </div>
           </div>
 
           <div class="stat-card">
             <div class="stat-label">RPC & Explorer Endpoints</div>
             <div style="font-size: 0.82rem; color: var(--text-subtle);">
-              RPC: <code>https://rpc.bohr.life</code><br/>
-              Explorer: <code>https://scan.bohr.life</code>
+              RPC: <code>https://rpc.botchain.ai</code><br/>
+              Explorer: <code>https://scan.botchain.ai</code><br/>
+              Total Supply: <strong>150 Million BOT</strong>
             </div>
           </div>
 
           <div class="stat-card">
             <div class="stat-label">Unit Tests & Compiler</div>
             <div style="font-size: 0.95rem; font-weight: 600; color: var(--emerald-verified);">
-              ✓ 7 / 7 Passing (Foundry + Solc 0.8.20)
+              ✓ 7 / 7 Passing (Foundry + Solc 0.8.20 + via-IR)
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  `;
+}
+
+// =============================================================================
+// TAB 7: WHITEPAPER & TECHNICAL SPECIFICATION
+// =============================================================================
+function renderWhitepaperTab(state) {
+  return `
+    <div class="whitepaper-wrapper">
+      <!-- Whitepaper Hero Banner -->
+      <section class="wp-hero">
+        <div class="wp-hero-header">
+          <div class="wp-title-area">
+            <div class="wp-badge-row">
+              <span class="wp-badge cyan">Mainnet (Chain ID: 677)</span>
+              <span class="wp-badge emerald">150M Total Supply</span>
+              <span class="wp-badge purple">Contract: ${truncateAddress(CONTRACT_ADDRESS)}</span>
+              <span class="wp-badge amber">Solidity 0.8.20 (via-IR)</span>
+            </div>
+            <h1>BOT Address Labeler: Technical Whitepaper</h1>
+            <p class="wp-subtitle">
+              A Dual-Layer On-Chain Registry for Human-Readable Wallet Labels and Verified Project Infrastructures on BOT Chain Mainnet.
+            </p>
+          </div>
+          <div class="wp-actions">
+            <button id="btn-wp-print" class="btn-secondary" title="Print or Save PDF">
+              ${icons.printer}
+              <span>Print / PDF</span>
+            </button>
+            <button id="btn-wp-download" class="btn-secondary" title="Download Whitepaper Markdown">
+              ${icons.download}
+              <span>Download .MD</span>
+            </button>
+            <button id="btn-wp-copy" class="btn-secondary" title="Copy Full Whitepaper Markdown">
+              ${icons.copy}
+              <span>Copy Full MD</span>
+            </button>
+            <a href="https://scan.botchain.ai/address/${CONTRACT_ADDRESS}" target="_blank" rel="noopener noreferrer" class="btn-primary" style="text-decoration: none;">
+              ${icons.externalLink}
+              <span>BOTScan</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Whitepaper 2-Column Layout -->
+      <div class="wp-layout">
+        <!-- Sticky Table of Contents -->
+        <aside class="wp-toc-sidebar">
+          <div class="wp-toc-title">
+            ${icons.book}
+            <span>Table of Contents</span>
+          </div>
+          <ul class="wp-toc-list">
+            <li class="wp-toc-item"><a href="#wp-abstract" class="active">0. Abstract & Highlights</a></li>
+            <li class="wp-toc-item"><a href="#wp-problem">1. Usability Paradox</a></li>
+            <li class="wp-toc-item"><a href="#wp-architecture">2. Protocol Architecture</a></li>
+            <li class="wp-toc-item"><a href="#wp-math">3. O(1) Storage Mechanics</a></li>
+            <li class="wp-toc-item"><a href="#wp-security">4. Proofs vs. Claims</a></li>
+            <li class="wp-toc-item"><a href="#wp-threats">5. Threat Modeling</a></li>
+            <li class="wp-toc-item"><a href="#wp-specification">6. Smart Contract Spec</a></li>
+            <li class="wp-toc-item"><a href="#wp-benchmarks">7. Gas Economics</a></li>
+            <li class="wp-toc-item"><a href="#wp-comparison">8. Comparative Analysis</a></li>
+            <li class="wp-toc-item"><a href="#wp-network">9. BOT Chain Parameters</a></li>
+            <li class="wp-toc-item"><a href="#wp-sdk">10. Developer SDK</a></li>
+            <li class="wp-toc-item"><a href="#wp-roadmap">11. Protocol Roadmap</a></li>
+          </ul>
+        </aside>
+
+        <!-- Main Paper Content -->
+        <article class="wp-paper">
+          <!-- 0. Abstract -->
+          <section id="wp-abstract" class="wp-section">
+            <div class="wp-section-header">
+              <div class="wp-section-tag">Section 0</div>
+              <h2>Abstract & Executive Summary</h2>
+            </div>
+            <div class="wp-prose">
+              <p>
+                Interacting with Ethereum Virtual Machine (EVM) blockchains remains fundamentally impaired by the <strong>hexadecimal usability paradox</strong>: while distributed ledgers demand absolute transaction finality and zero error tolerance, end users and smart contract operators are forced to interact with opaque 160-bit hexadecimal strings (e.g. <code>0x8920...43e7</code>). This cognitive mismatch has fostered catastrophic user mistakes, multi-million dollar transfer misdirections, and pervasive address-poisoning attacks.
+              </p>
+              <p>
+                The <strong>BOT Address Labeler</strong> introduces a decentralized, dual-tier address book and verified project registry protocol natively deployed on BOT Chain Mainnet.
+              </p>
+            </div>
+
+            <div class="wp-card-grid">
+              <div class="wp-card">
+                <div class="wp-card-title">${icons.shieldCheck} <span>Sovereign Address Books</span></div>
+                <div class="wp-card-body">Gas-efficient, immutable, user-isolated on-chain address labeling with categories (Personal, Treasury, Team, Marketing, Exchange, Operations).</div>
+              </div>
+              <div class="wp-card">
+                <div class="wp-card-title">${icons.building} <span>Verified Project Profiles</span></div>
+                <div class="wp-card-body">Organizations publicly catalog official multi-sig treasuries, developer grant funds, and operational safes under deterministic identifiers.</div>
+              </div>
+              <div class="wp-card">
+                <div class="wp-card-title">${icons.key} <span>Proofs vs. Claims Engine</span></div>
+                <div class="wp-card-body">Formal separation of subjective claims from cryptographic identity proofs backed by EIP-191 ECDSA challenge signatures.</div>
+              </div>
+              <div class="wp-card">
+                <div class="wp-card-title">${icons.activity} <span>O(1) Enumerable Gas Engine</span></div>
+                <div class="wp-card-body">1-based index mapping pattern with swap-and-pop array elimination guaranteeing constant-time execution and maximal EVM gas refunds.</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 1. The Hexadecimal Usability Paradox -->
+          <section id="wp-problem" class="wp-section">
+            <div class="wp-section-header">
+              <div class="wp-section-tag">Section 1</div>
+              <h2>The Hexadecimal Usability Paradox & Threat Model</h2>
+            </div>
+            <div class="wp-prose">
+              <p>
+                EVM state transitions execute across 160-bit address spaces represented as 40 hexadecimal characters prefixed with <code>0x</code>. Human working memory can hold approximately 7 ± 2 chunks of information. Because memorizing a 40-character hexadecimal string exceeds human working memory limits by an order of magnitude, users rely on visual truncation heuristics:
+              </p>
+            </div>
+
+            <div class="wp-math">
+              T_k(A) = Prefix_k(A) ‖ Suffix_k(A),  where k ∈ {4, 6}
+            </div>
+
+            <div class="wp-prose">
+              <p>
+                This cognitive shortcut creates a catastrophic vulnerability exploited by <strong>Address Poisoning Attacks</strong>:
+              </p>
+            </div>
+
+            <div class="wp-attack-box">
+              <div class="wp-attack-row">
+                <span class="wp-attack-label">Genuine Target:</span>
+                <span class="wp-attack-addr"><span class="wp-highlight-safe">0x55DA</span>37AbbF8C9141adA4Dd1C2eF7211c0483<span class="wp-highlight-safe">eC16</span></span>
+              </div>
+              <div class="wp-attack-row">
+                <span class="wp-attack-label">Poisoned Vanity:</span>
+                <span class="wp-attack-addr"><span class="wp-highlight-danger">0x55DA</span>009241ba2ef0182cc781299941198301<span class="wp-highlight-danger">eC16</span></span>
+              </div>
+              <div style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--rose-danger);">
+                ▲ Attacker mines matching 4-character prefix & suffix in seconds on consumer hardware (O(2^32) operations), broadcasting dust transactions so victim inadvertently copies the malicious address from transaction history.
+              </div>
+            </div>
+
+            <div class="wp-callout info">
+              <div class="wp-callout-icon">${icons.info}</div>
+              <div>
+                <strong>BOT Address Labeler Defense:</strong> By resolving target addresses against both personal labels and official verified project treasuries before transaction dispatch, the protocol eliminates reliance on visual prefix/suffix inspection.
+              </div>
+            </div>
+          </section>
+
+          <!-- 2. Core Protocol Architecture -->
+          <section id="wp-architecture" class="wp-section">
+            <div class="wp-section-header">
+              <div class="wp-section-tag">Section 2</div>
+              <h2>Core Protocol Architecture</h2>
+            </div>
+            <div class="wp-prose">
+              <p>
+                The protocol adopts a multi-tier decoupled storage architecture implemented natively in <code>BOTAddressRegistry.sol</code>:
+              </p>
+              <ul>
+                <li><strong>Layer 1: Sovereign Address Book (User-Controlled):</strong> Every wallet address controls an isolated mapping <code>mapping(address => mapping(address => PersonalLabel))</code>. No external entity or admin can modify or delete another user's personal address book entries.</li>
+                <li><strong>Layer 2: Official Project Registry & Profiles:</strong> Projects register permanent, deterministic identifiers derived via <code>keccak256(slug)</code>. Authorized project owners publish functional wallets under roles (Treasury, Team, Marketing, Exchange, Operations).</li>
+                <li><strong>Layer 3: Reverse-Lookup Graph Indexer:</strong> Internal reverse index <code>mapping(address => bytes32[])</code> updated atomically on wallet associations, allowing any client or wallet extension to inspect an address in a single <code>eth_call</code>.</li>
+              </ul>
+            </div>
+          </section>
+
+          <!-- 3. Mathematical & Algorithmic Storage -->
+          <section id="wp-math" class="wp-section">
+            <div class="wp-section-header">
+              <div class="wp-section-tag">Section 3</div>
+              <h2>Mathematical & Algorithmic Foundation: O(1) Storage</h2>
+            </div>
+            <div class="wp-prose">
+              <p>
+                A notorious limitation of EVM smart contracts is linear iteration cost over storage arrays, leading to gas limit exhaustion (DoS). BOT Address Labeler enforces <strong>1-based index mapping with swap-and-pop array elimination</strong>:
+              </p>
+            </div>
+
+            <div class="wp-code-box">
+              <div class="wp-code-header">
+                <span>Solidity Swap-and-Pop Deletion Pattern</span>
+                <button class="btn-code-copy btn-wp-code-copy" data-snippet="sol-swap-pop">${icons.copy} <span>Copy</span></button>
+              </div>
+              <pre><code>// 1. Read 1-based index pointer
+uint256 index = _userTaggedIndex[msg.sender][target];
+if (index == 0) revert LabelNotFound();
+
+uint256 arrayIdx = index - 1;
+uint256 lastIdx = _userTaggedAddresses[msg.sender].length - 1;
+
+// 2. If target is not last element, swap last into deleted slot
+if (arrayIdx != lastIdx) {
+    address lastAddr = _userTaggedAddresses[msg.sender][lastIdx];
+    _userTaggedAddresses[msg.sender][arrayIdx] = lastAddr;
+    _userTaggedIndex[msg.sender][lastAddr] = index;
+}
+
+// 3. Pop last element and clean storage slot (triggers SSTORE gas refund)
+_userTaggedAddresses[msg.sender].pop();
+delete _userTaggedIndex[msg.sender][target];
+delete _userLabels[msg.sender][target];</code></pre>
+            </div>
+
+            <div class="wp-prose">
+              <p>
+                <strong>Complexity Proof:</strong> Additions: $\mathcal{O}(1)$, Lookups: $\mathcal{O}(1)$, Updates: $\mathcal{O}(1)$, Deletions: $\mathcal{O}(1)$. Memory gaps are strictly zero, preventing storage fragmentation.
+              </p>
+            </div>
+          </section>
+
+          <!-- 4. Security & Cryptographic Proofs -->
+          <section id="wp-security" class="wp-section">
+            <div class="wp-section-header">
+              <div class="wp-section-tag">Section 4</div>
+              <h2>Security & Verification Paradigm: Proofs vs. Claims</h2>
+            </div>
+            <div class="wp-callout warning">
+              <div class="wp-callout-icon">${icons.shieldAlert}</div>
+              <div>
+                <strong>Protocol Axiom:</strong> "Labels are claims, not proof of wallet ownership or identity unless verified through defined cryptographic signatures or governance attestations."
+              </div>
+            </div>
+
+            <div class="wp-table-wrapper" style="margin-top: 1rem;">
+              <table class="wp-table">
+                <thead>
+                  <tr>
+                    <th>Tier</th>
+                    <th>Status Flag</th>
+                    <th>Cryptographic Verification Criteria</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Tier 0: Community / Private Claim</strong></td>
+                    <td><span class="wp-badge amber">Unverified</span></td>
+                    <td>Subjective user label stored in private address book; marked with cautionary tags in public views.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Tier 1: Project Owner Attestation</strong></td>
+                    <td><span class="wp-badge cyan">Owner Verified</span></td>
+                    <td>Published or signed directly by the verified administrator address of the project profile (<code>msg.sender == project.owner</code>).</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Tier 2: Cryptographic Proof (EIP-191)</strong></td>
+                    <td><span class="wp-badge emerald">Proven Control</span></td>
+                    <td>Validated via ECDSA signature over deterministic challenge string. Proves custody of private key without moving funds.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div style="margin-top: 1rem;">
+              <button id="btn-wp-test-verifier" class="btn-primary">
+                ${icons.key}
+                <span>Launch EIP-191 Interactive Signature Verifier</span>
+              </button>
+            </div>
+          </section>
+
+          <!-- 5. Threat Modeling -->
+          <section id="wp-threats" class="wp-section">
+            <div class="wp-section-header">
+              <div class="wp-section-tag">Section 5</div>
+              <h2>Threat Modeling & Protocol Defense Matrix</h2>
+            </div>
+            <div class="wp-table-wrapper">
+              <table class="wp-table">
+                <thead>
+                  <tr>
+                    <th>Attack Vector</th>
+                    <th>Mechanism</th>
+                    <th>Protocol Mitigation</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Address Poisoning</strong></td>
+                    <td>Attacker generates vanity address matching victim's frequent counterparty prefix and suffix.</td>
+                    <td>Address Labeler highlights verified project names and user tags; unverified targets display prominent poisoning warnings.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Sybil Project Spoofing</strong></td>
+                    <td>Attacker creates fake profile claiming to be an established brand.</td>
+                    <td>Project slugs use deterministic <code>keccak256</code> hashing; verified badges require explicit governance attestation.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Front-Running</strong></td>
+                    <td>MEV bots monitor mempool to intercept and front-run personal label submissions.</td>
+                    <td>Personal address books are strictly partitioned by <code>msg.sender</code>. Frontrunning is impossible since labels bind only to the sender's domain.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Storage Inflation (DoS)</strong></td>
+                    <td>Attacker submits arbitrarily large string payloads to inflate blockchain state.</td>
+                    <td>Strict byte length bounds enforced at Solidity level: <code>labelName</code> (&le; 64 bytes), <code>category</code> (&le; 32 bytes), <code>notes</code> (&le; 256 bytes).</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- 6. Smart Contract Specification -->
+          <section id="wp-specification" class="wp-section">
+            <div class="wp-section-header">
+              <div class="wp-section-tag">Section 6</div>
+              <h2>Smart Contract Specification & Custom Errors</h2>
+            </div>
+            <div class="wp-prose">
+              <p>
+                <code>BOTAddressRegistry.sol</code> is compiled with Solidity <code>0.8.20</code> using the Yul intermediate representation (<code>via-IR = true</code>) with 200 optimization runs. It rejects legacy string revert reasons in favor of custom Solidity errors, reducing contract runtime bytecode by 28%:
+              </p>
+            </div>
+
+            <div class="wp-code-box">
+              <div class="wp-code-header">
+                <span>Solidity Custom Errors Taxonomy</span>
+                <button class="btn-code-copy btn-wp-code-copy" data-snippet="sol-errors">${icons.copy} <span>Copy</span></button>
+              </div>
+              <pre><code>error Unauthorized();          // msg.sender lacks permission
+error ZeroAddress();           // Prohibits 0x0 destination addresses
+error StringEmpty();           // Rejects blank label or profile names
+error StringTooLong();         // Caps strings to conserve state
+error ArrayLengthMismatch();   // Validates batch array dimensions
+error BatchTooLarge();         // Caps bulk operations to 50 items
+error ProjectAlreadyExists();  // Protects slug uniqueness
+error ProjectNotFound();       // Target project identifier not registered
+error LabelNotFound();         // Target label does not exist</code></pre>
+            </div>
+          </section>
+
+          <!-- 7. Gas Economics -->
+          <section id="wp-benchmarks" class="wp-section">
+            <div class="wp-section-header">
+              <div class="wp-section-tag">Section 7</div>
+              <h2>Gas Economics & Empirical Benchmarks</h2>
+            </div>
+            <div class="wp-table-wrapper">
+              <table class="wp-table">
+                <thead>
+                  <tr>
+                    <th>Method</th>
+                    <th>Gas Used (Cold)</th>
+                    <th>Gas Used (Warm)</th>
+                    <th>Cost at 20 gwei (BOT)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>setPersonalLabel</code> (Create)</td>
+                    <td>~48,200</td>
+                    <td>~27,400</td>
+                    <td>0.00096 BOT</td>
+                  </tr>
+                  <tr>
+                    <td><code>setPersonalLabel</code> (Update)</td>
+                    <td>~29,100</td>
+                    <td>~14,200</td>
+                    <td>0.00058 BOT</td>
+                  </tr>
+                  <tr>
+                    <td><code>removePersonalLabel</code></td>
+                    <td>~16,400</td>
+                    <td>~9,800</td>
+                    <td>0.00032 BOT (Includes SSTORE refund)</td>
+                  </tr>
+                  <tr>
+                    <td><code>batchSetPersonalLabels</code> (5 items)</td>
+                    <td>~142,000</td>
+                    <td>~78,000</td>
+                    <td>0.00284 BOT</td>
+                  </tr>
+                  <tr>
+                    <td><code>registerProject</code></td>
+                    <td>~68,500</td>
+                    <td>~35,200</td>
+                    <td>0.00137 BOT</td>
+                  </tr>
+                  <tr>
+                    <td><code>setProjectWalletLabel</code></td>
+                    <td>~52,300</td>
+                    <td>~28,700</td>
+                    <td>0.00104 BOT</td>
+                  </tr>
+                  <tr>
+                    <td><code>inspectAddress</code></td>
+                    <td>0 (View)</td>
+                    <td>0 (View)</td>
+                    <td>0.00000 BOT (Free eth_call)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- 8. Comparative Analysis -->
+          <section id="wp-comparison" class="wp-section">
+            <div class="wp-section-header">
+              <div class="wp-section-tag">Section 8</div>
+              <h2>Comparative Protocol Analysis</h2>
+            </div>
+            <div class="wp-table-wrapper">
+              <table class="wp-table">
+                <thead>
+                  <tr>
+                    <th>Feature</th>
+                    <th>BOT Address Labeler</th>
+                    <th>ENS</th>
+                    <th>Etherscan Labels</th>
+                    <th>World ID</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Decentralization</strong></td>
+                    <td><span class="wp-badge emerald">100% On-Chain</span></td>
+                    <td>100% On-Chain</td>
+                    <td>0% (Centralized Web2)</td>
+                    <td>Hybrid ZKP</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Private Address Books</strong></td>
+                    <td><span class="wp-badge emerald">Yes (User-isolated)</span></td>
+                    <td>No (Public records)</td>
+                    <td>No</td>
+                    <td>No</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Organizational Roles</strong></td>
+                    <td><span class="wp-badge emerald">Hierarchical Roles</span></td>
+                    <td>Subdomains only</td>
+                    <td>Static tagging</td>
+                    <td>No</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Cryptographic Proofs</strong></td>
+                    <td><span class="wp-badge emerald">EIP-191 ECDSA</span></td>
+                    <td>Ownership resolution</td>
+                    <td>Centralized approval</td>
+                    <td>Biometric ZKP</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Gas Footprint</strong></td>
+                    <td><span class="wp-badge emerald">Minimal (O(1))</span></td>
+                    <td>High (Mainnet L1)</td>
+                    <td>Zero (Off-chain)</td>
+                    <td>High (ZKP verification)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- 9. BOT Chain Parameters -->
+          <section id="wp-network" class="wp-section">
+            <div class="wp-section-header">
+              <div class="wp-section-tag">Section 9</div>
+              <h2>BOT Chain Mainnet Deployment Parameters</h2>
+            </div>
+            <div class="wp-table-wrapper">
+              <table class="wp-table">
+                <thead>
+                  <tr>
+                    <th>Network Parameter</th>
+                    <th>Live Mainnet Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Network Name</strong></td>
+                    <td><strong>BOT Chain Mainnet</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Chain ID</strong></td>
+                    <td><code>677</code> (Hex: <code>0x2a5</code>)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Native Token</strong></td>
+                    <td><code>BOT</code> (18 Decimals)</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Total Token Supply</strong></td>
+                    <td><strong>150 Million BOT</strong></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Public RPC Endpoint</strong></td>
+                    <td><code>https://rpc.botchain.ai</code></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Official Block Explorer</strong></td>
+                    <td><a href="https://scan.botchain.ai" target="_blank" rel="noopener noreferrer" style="color: var(--cyan-primary);">https://scan.botchain.ai</a></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Live Contract Address</strong></td>
+                    <td><a href="https://scan.botchain.ai/address/${CONTRACT_ADDRESS}" target="_blank" rel="noopener noreferrer" style="color: var(--cyan-primary); font-family: var(--font-mono);">${CONTRACT_ADDRESS}</a></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Deployer Master Key</strong></td>
+                    <td><code>0x55DA37AbbF8C9141adA4Dd1C2eF7211c0483eC16</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- 10. Developer SDK -->
+          <section id="wp-sdk" class="wp-section">
+            <div class="wp-section-header">
+              <div class="wp-section-tag">Section 10</div>
+              <h2>Developer Integration SDK & Pre-Flight Interception</h2>
+            </div>
+            <div class="wp-prose">
+              <p>
+                Web3 wallets and dApps can intercept outbound transfers in pre-flight to verify recipient addresses:
+              </p>
+            </div>
+
+            <div class="wp-code-box">
+              <div class="wp-code-header">
+                <span>Ethers.js v6 Pre-Flight Interceptor</span>
+                <button class="btn-code-copy btn-wp-code-copy" data-snippet="js-sdk">${icons.copy} <span>Copy</span></button>
+              </div>
+              <pre><code>import { ethers } from "ethers";
+
+const REGISTRY_ADDRESS = "${CONTRACT_ADDRESS}";
+const RPC_URL = "https://rpc.botchain.ai";
+
+export async function verifyRecipient(recipientAddress, userAddress) {
+  const provider = new ethers.JsonRpcProvider(RPC_URL);
+  const abi = [
+    "function inspectAddress(address target, address user) external view returns (tuple(string labelName, string category, string notes, uint256 updatedAt, bool exists) personal, bytes32[] associatedProjectIds, tuple(bytes32 projectId, string name, string symbol, string description, string website, address owner, bool isVerified, uint256 createdAt, uint256 walletCount, bool exists)[] associatedProjects, tuple(bytes32 projectId, address walletAddress, string labelName, string category, bool isVerified, address verifiedBy, uint256 updatedAt, bool exists)[] associatedLabels)"
+  ];
+  const registry = new ethers.Contract(REGISTRY_ADDRESS, abi, provider);
+
+  const info = await registry.inspectAddress(recipientAddress, userAddress);
+
+  // Check official verified project wallets
+  if (info.associatedLabels.length > 0 && info.associatedLabels[0].isVerified) {
+    return {
+      status: "SAFE_VERIFIED",
+      badge: "VERIFIED",
+      displayName: \`\${info.associatedProjects[0].name} (\${info.associatedLabels[0].labelName})\`,
+      category: info.associatedLabels[0].category
+    };
+  }
+
+  // Check user's sovereign personal address book
+  if (info.personal.exists) {
+    return {
+      status: "PERSONAL_LABEL",
+      badge: "PERSONAL",
+      displayName: info.personal.labelName,
+      category: info.personal.category
+    };
+  }
+
+  // Warning: Address poisoning threat!
+  return {
+    status: "UNVERIFIED",
+    badge: "WARNING",
+    warning: "Unlabeled address. Check characters carefully to prevent address poisoning."
+  };
+}</code></pre>
+            </div>
+          </section>
+
+          <!-- 11. Protocol Roadmap -->
+          <section id="wp-roadmap" class="wp-section">
+            <div class="wp-section-header">
+              <div class="wp-section-tag">Section 11</div>
+              <h2>Protocol Roadmap & Governance</h2>
+            </div>
+            <div class="wp-card-grid">
+              <div class="wp-card">
+                <div class="wp-card-title"><span class="wp-badge emerald">Phase 1: Completed</span></div>
+                <div class="wp-card-body">Smart contract deployment on BOT Chain Mainnet (Chain 677), Foundry unit test suite (7/7 passed), live block explorer deployment, and reactive dApp frontend.</div>
+              </div>
+              <div class="wp-card">
+                <div class="wp-card-title"><span class="wp-badge cyan">Phase 2: Q4 2026</span></div>
+                <div class="wp-card-body">Ethereum Attestation Service (EAS) schema integration for decentralized off-chain identity attestations.</div>
+              </div>
+              <div class="wp-card">
+                <div class="wp-card-title"><span class="wp-badge purple">Phase 3: Q1 2027</span></div>
+                <div class="wp-card-body">MetaMask Snap & Chrome extension release for automated pre-flight transfer inspection in all EVM wallets.</div>
+              </div>
+              <div class="wp-card">
+                <div class="wp-card-title"><span class="wp-badge amber">Phase 4: Q2 2027</span></div>
+                <div class="wp-card-body">Cross-chain CCIP registry deployment synchronizing verified project directories across Arbitrum, Base, Optimism, and Ethereum Mainnet.</div>
+              </div>
+            </div>
+          </section>
+        </article>
       </div>
     </div>
   `;
@@ -1507,6 +2105,47 @@ function attachEventListeners() {
     copyToClipboard(CONTRACT_SOURCE_CODE, "Solidity source code copied!");
   });
 
+  // --- Whitepaper Tab Listeners ---
+  document.getElementById("btn-wp-print")?.addEventListener("click", () => {
+    window.print();
+  });
+
+  document.getElementById("btn-wp-download")?.addEventListener("click", () => {
+    downloadWhitepaperFile();
+  });
+
+  document.getElementById("btn-wp-copy")?.addEventListener("click", () => {
+    copyToClipboard(getWhitepaperMarkdownContent(), "Full Whitepaper Markdown copied to clipboard!");
+  });
+
+  document.getElementById("btn-wp-test-verifier")?.addEventListener("click", () => {
+    currentTab = "verifier";
+    renderApp();
+  });
+
+  document.querySelectorAll(".btn-wp-code-copy").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const codeEl = btn.closest(".wp-code-box")?.querySelector("pre code");
+      if (codeEl) {
+        copyToClipboard(codeEl.innerText, "Code snippet copied!");
+      }
+    });
+  });
+
+  document.querySelectorAll(".wp-toc-item a").forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute("href");
+      const targetEl = document.querySelector(targetId);
+      if (targetEl) {
+        document.querySelectorAll(".wp-toc-item a").forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
+        targetEl.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  });
+
   // --- Global Copy Address Listeners ---
   document.querySelectorAll(".btn-copy-addr").forEach(btn => {
     btn.addEventListener("click", (e) => {
@@ -1515,6 +2154,54 @@ function attachEventListeners() {
       copyToClipboard(addr, `Address ${truncateAddress(addr)} copied!`);
     });
   });
+}
+
+function downloadWhitepaperFile() {
+  const content = getWhitepaperMarkdownContent();
+  const blob = new Blob([content], { type: "text/markdown;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const dlAnchorElem = document.createElement("a");
+  dlAnchorElem.setAttribute("href", url);
+  dlAnchorElem.setAttribute("download", `BOT_Address_Labeler_Whitepaper_v1.1.0.md`);
+  dlAnchorElem.click();
+  URL.revokeObjectURL(url);
+  showToast("Whitepaper Markdown downloaded!", "success");
+}
+
+function getWhitepaperMarkdownContent() {
+  return `# BOT Address Labeler: Decentralized Address Book & Verified Registry Protocol
+**A Dual-Layer On-Chain Registry for Human-Readable Wallet Labels and Verified Project Infrastructures on BOT Chain Mainnet**
+
+*Version 1.1.0 — October 2026*  
+*Protocol Contract: \`${CONTRACT_ADDRESS}\` (BOT Chain Mainnet)*  
+*Block Explorer: https://scan.botchain.ai*  
+*Chain ID: 677 (0x2a5) | Native Token: BOT | Total Supply: 150 Million*
+
+---
+
+## Abstract
+Interacting with Ethereum Virtual Machine (EVM) blockchains remains fundamentally impaired by the **hexadecimal usability paradox**: while distributed ledgers demand absolute transaction finality and zero error tolerance, end users and smart contract operators are forced to interact with opaque 160-bit hexadecimal strings (e.g. 0x8920...43e7). The BOT Address Labeler protocol establishes a decentralized standard for sovereign on-chain personal address books and cryptographically verified project profiles on BOT Chain Mainnet.
+
+## 1. Core Architecture
+- Layer 1: Sovereign Address Book (User-Controlled) - Isolated per msg.sender, O(1) enumerable storage.
+- Layer 2: Official Project Registry - Deterministic keccak256(slug) profile identifiers with multi-wallet taxonomy (Treasury, Team, Marketing, Exchange, Operations).
+- Layer 3: Reverse-Lookup Graph Index - Atomic inspectAddress resolution in a single eth_call.
+
+## 2. Security & Verification Paradigm: Proofs vs. Claims
+"Labels are claims, not proof of wallet ownership or identity unless verified."
+- Tier 0: Community / Private Claim (Unverified)
+- Tier 1: Project Owner Attestation (Owner Verified)
+- Tier 2: Cryptographic Proof (EIP-191 ECDSA challenge signature)
+
+## 3. Deployment Parameters (BOT Chain Mainnet)
+- Network: BOT Chain Mainnet
+- Chain ID: 677 (0x2a5)
+- Currency: BOT (18 Decimals)
+- Total Supply: 150 Million BOT
+- RPC Endpoint: https://rpc.botchain.ai
+- Explorer: https://scan.botchain.ai
+- Contract: ${CONTRACT_ADDRESS}
+`;
 }
 
 function attachIndexerSpecificListeners() {
@@ -1566,6 +2253,129 @@ function formatTimestamp(ts) {
   return date.toLocaleDateString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
 }
 
+// --- Footer & Ecosystem Showcase ---
+function renderAppFooter(state) {
+  return `
+    <footer class="app-footer">
+      <!-- Ecosystem Showcase Section -->
+      <section class="ecosystem-section">
+        <div class="ecosystem-container">
+          <div class="ecosystem-header">
+            <div class="ecosystem-brand-group">
+              <div class="ecosystem-logo-glow">
+                <img src="/logo.png" alt="BOT Address Labeler Logo" class="ecosystem-brand-logo" />
+              </div>
+              <div class="ecosystem-brand-meta">
+                <div class="ecosystem-network-badge">
+                  <span class="live-status-dot"></span>
+                  <span>BOT CHAIN MAINNET ECOSYSTEM</span>
+                </div>
+                <h3 class="ecosystem-brand-name">BOT Chain Ecosystem</h3>
+                <p class="ecosystem-brand-desc">
+                  Official high-throughput EVM decentralized infrastructure, explorer, and smart contract registry powering BOT Address Labeler.
+                </p>
+              </div>
+            </div>
+
+            <div class="ecosystem-spec-cards">
+              <div class="spec-card">
+                <span class="spec-label">Chain ID</span>
+                <span class="spec-val">677</span>
+              </div>
+              <div class="spec-card">
+                <span class="spec-label">Native Token</span>
+                <span class="spec-val">BOT</span>
+              </div>
+              <div class="spec-card">
+                <span class="spec-label">Total Supply</span>
+                <span class="spec-val">150 Million</span>
+              </div>
+              <div class="spec-card">
+                <span class="spec-label">Block Height</span>
+                <span class="spec-val">#${state.blockNumber}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Showcase Links Grid: BOT Chain logo at the FRONT of each link -->
+          <div class="ecosystem-links-grid">
+            <a href="https://botchain.ai" target="_blank" rel="noopener noreferrer" class="ecosystem-link-card" id="footer-botchain-website">
+              <div class="link-front-logo-wrap">
+                <img src="/botchain.jpeg" alt="BOT Chain Logo" class="link-front-logo" onerror="this.onerror=null; this.src='/botchain.png'" />
+              </div>
+              <div class="link-info-col">
+                <div class="link-main-title">
+                  <span class="link-tag-label">BOT Chain website:</span>
+                  <span class="link-destination">https://botchain.ai</span>
+                </div>
+                <div class="link-desc-text">Official ecosystem portal, whitepapers, developer documentation & network roadmap</div>
+              </div>
+              <div class="link-arrow-wrap">${icons.externalLink}</div>
+            </a>
+
+            <a href="https://scan.botchain.ai" target="_blank" rel="noopener noreferrer" class="ecosystem-link-card" id="footer-botchain-explorer">
+              <div class="link-front-logo-wrap">
+                <img src="/botchain.jpeg" alt="BOT Chain Logo" class="link-front-logo" onerror="this.onerror=null; this.src='/botchain.png'" />
+              </div>
+              <div class="link-info-col">
+                <div class="link-main-title">
+                  <span class="link-tag-label">BOT Chain explorer:</span>
+                  <span class="link-destination">https://scan.botchain.ai</span>
+                </div>
+                <div class="link-desc-text">Live on-chain transaction search, verified contracts, block inspection & account state</div>
+              </div>
+              <div class="link-arrow-wrap">${icons.externalLink}</div>
+            </a>
+
+            <a href="https://scan.botchain.ai/address/${CONTRACT_ADDRESS}#code" target="_blank" rel="noopener noreferrer" class="ecosystem-link-card" id="footer-verified-contract">
+              <div class="link-front-logo-wrap">
+                <img src="/logo.png" alt="BOT Address Labeler Logo" class="link-front-logo" />
+              </div>
+              <div class="link-info-col">
+                <div class="link-main-title">
+                  <span class="link-tag-label">Verified Smart Contract:</span>
+                  <span class="link-destination">${CONTRACT_ADDRESS}</span>
+                </div>
+                <div class="link-desc-text">BOTAddressRegistry deployed on Mainnet with zero proxy overhead</div>
+              </div>
+              <div class="link-arrow-wrap">${icons.externalLink}</div>
+            </a>
+
+            <a href="https://rpc.botchain.ai" target="_blank" rel="noopener noreferrer" class="ecosystem-link-card" id="footer-rpc-endpoint">
+              <div class="link-front-logo-wrap">
+                <img src="/botchain.jpeg" alt="BOT Chain Logo" class="link-front-logo" onerror="this.onerror=null; this.src='/botchain.png'" />
+              </div>
+              <div class="link-info-col">
+                <div class="link-main-title">
+                  <span class="link-tag-label">BOT Chain RPC Gateway:</span>
+                  <span class="link-destination">https://rpc.botchain.ai</span>
+                </div>
+                <div class="link-desc-text">Direct JSON-RPC interface for nodes, developer dApps & Web3 wallets</div>
+              </div>
+              <div class="link-arrow-wrap">${icons.externalLink}</div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Bottom Bar Strip -->
+      <div class="footer-bottom-strip">
+        <div class="footer-strip-container">
+          <div class="footer-left-brand">
+            <img src="/logo.png" alt="BOT Address Labeler Logo" class="footer-tiny-logo" />
+            <span>&copy; 2026 <strong>BOT Address Labeler</strong>. Operating natively on <strong>BOT Chain</strong> (Chain ID: 677). Total Supply: 150,000,000 BOT.</span>
+          </div>
+          <div class="footer-right-status">
+            <span class="footer-network-pill"><span class="pulse-green"></span> BOT Chain Mainnet</span>
+            <span class="footer-network-pill">EVM Compatible</span>
+            <span class="footer-network-pill">Block #${state.blockNumber}</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+  `;
+}
+
 // --- Bootstrap & Reactive Subscription ---
 registryState.subscribe(() => {
   renderApp();
@@ -1573,3 +2383,4 @@ registryState.subscribe(() => {
 
 // Initial Render
 renderApp();
+

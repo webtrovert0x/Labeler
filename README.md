@@ -9,10 +9,10 @@
 </p>
 
 <p align="center">
-  <a href="https://scan.bohr.life/address/0xA17E767F0E6b4A2B0A58046CaFede7ed92be82AF#code"><img src="https://img.shields.io/badge/Contract-Verified%20on%20BOTScan-10b981?style=for-the-badge&logo=ethereum" alt="Verified on BOTScan" /></a>
+  <a href="https://scan.botchain.ai/address/0x2204C3063243CA7DAe02930D20568DeF988036e5#code"><img src="https://img.shields.io/badge/Contract-Live%20on%20BOTScan-10b981?style=for-the-badge&logo=ethereum" alt="Verified on BOTScan" /></a>
   <img src="https://img.shields.io/badge/Solidity-0.8.20-blue?style=for-the-badge&logo=solidity" alt="Solidity 0.8.20" />
   <img src="https://img.shields.io/badge/Tests-7%2F7%20Passed-success?style=for-the-badge" alt="Tests Passed" />
-  <img src="https://img.shields.io/badge/Network-BOT%20Chain%20(968)-00f2fe?style=for-the-badge" alt="BOT Chain" />
+  <img src="https://img.shields.io/badge/Network-BOT%20Chain%20(677)-00f2fe?style=for-the-badge" alt="BOT Chain" />
 </p>
 
 ---
@@ -30,17 +30,19 @@
 
 ---
 
-## 🔗 Live Deployment (BOT Chain)
+## 🔗 Live Deployment (BOT Chain Mainnet)
 
 | Parameter | Mainnet Details |
 | :--- | :--- |
-| **Network Name** | **BOT Chain** |
-| **Chain ID** | `968` (`0x3c8`) |
-| **Currency** | `BOT` |
-| **RPC Endpoint** | `https://rpc.bohr.life` |
-| **Block Explorer** | [scan.bohr.life](https://scan.bohr.life) |
-| **Contract Address** | [`0xA17E767F0E6b4A2B0A58046CaFede7ed92be82AF`](https://scan.bohr.life/address/0xA17E767F0E6b4A2B0A58046CaFede7ed92be82AF#code) |
-| **Status** | **✓ Pass - Verified (Green Checkmark on BOTScan)** |
+| **Network Name** | **BOT Chain Mainnet** |
+| **Chain ID** | `677` (`0x2a5`) |
+| **Currency** | `BOT` (18 Decimals) |
+| **Total Token Supply** | **150 Million BOT** |
+| **RPC Endpoint** | `https://rpc.botchain.ai` |
+| **Block Explorer** | [scan.botchain.ai](https://scan.botchain.ai) |
+| **Contract Address** | [`0x2204C3063243CA7DAe02930D20568DeF988036e5`](https://scan.botchain.ai/address/0x2204C3063243CA7DAe02930D20568DeF988036e5) |
+| **Deployer Key** | `0x55DA37AbbF8C9141adA4Dd1C2eF7211c0483eC16` |
+| **Status** | **✓ Deployed & Live on BOT Chain Mainnet** |
 
 ---
 
@@ -108,12 +110,12 @@ forge test -vvv
 ### Verify Contract on BOTScan via CLI
 ```bash
 forge verify-contract \
-  0xA17E767F0E6b4A2B0A58046CaFede7ed92be82AF \
+  0x2204C3063243CA7DAe02930D20568DeF988036e5 \
   contracts/BOTAddressRegistry.sol:BOTAddressRegistry \
-  --verifier-url https://scan.bohr.life/api \
+  --verifier-url https://scan.botchain.ai/api \
   --verifier blockscout \
   --compiler-version 0.8.20 \
-  --num-of-optimizations 200 \
+  --num-of-optimizations 1 \
   --via-ir \
   --watch
 ```
